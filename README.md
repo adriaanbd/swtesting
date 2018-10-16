@@ -27,10 +27,10 @@ The output produced by a test case determines the actions taken thereafter:
 
 We don't learn much from the first outcome, it just raises our confidence. However, we learn a lot more from the second outcome because we'll have to check if there is a bug in either of the following, in order:
 
- 1. The software under test.
+ 1. The software under test (SUT).
  2. Our acceptability test.
  3. Our specification(s).
- 4. The Operating System, Compiler, Libraries, Hardware, etc.
+ 4. The Operating System, Compiler, Libraries, Hardware.
 
 If we realize we're dealing with the fourth outcome above, we'll need to figure out a workaround. However, if the bug isn't found in either of the above-mentioned options, we have some sort of impasse.
 
@@ -38,6 +38,8 @@ We can conclude at this point by saying that a test is a tiny experiment wherein
 
 ## A famous real-life example: The Mars Climate Orbiter
 
-The Mars Climate Orbiter, a 745lb robotic space probe, was launched by *NASA* on December 11, 1998 to study the Martian climate, atmosphere and surface, and act as a communications relay. However, on September 23, 1999 communication with the spacecraft was lost as the spacecraft went into orbital insertion, due to *ground-based computer software* which produced *output* in non-SI units (U.S. standard) of pound-force seconds instead of SI units (International standard) of newton seconds, as specified in the contract between *NASA* and *Lockheed Martin*.
+The Mars Climate Orbiter, a 745lb robotic space probe, was launched by *NASA* on December 11, 1998 to study the Martian climate, atmosphere and surface, and act as a communications relay. However, on September 23, 1999 communication with the spacecraft was lost as the spacecraft went into orbital insertion, due to *ground-based computer software* which produced *output* in non-SI units (U.S. standard) of pound-force seconds instead of SI units (International standard) of newton seconds, as specified in the contract between *NASA* and *Lockheed Martin*. Sadly, the spacecraft encountered Mars on a trajectory that brought it too close to the planet, causing it to pass through the upper atmosphere and disintegrate.
 
-Sadly, the spacecraft encountered Mars on a trajectory that brought it too close to the planet, causing it to pass through the upper atmosphere and disintegrate.
+What happened was that NASA's software expected units in metric (meters per second), but Lockheed Martin's software was programmed in english units (feet per second). And although the underlying code was actually correct, the miscommunication caused a caused the Mars Climate Orbiter to drift and crash into the Mars atmosphere.
+
+So, where was the bug? Was it in the SUT, acceptability test, specification and/or OS, compiler, libraries and hardware?
