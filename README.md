@@ -5,7 +5,7 @@ At the moment, there are notes on software testing in general, and test driven d
 
 Most of the material in here has been extracted from content provided by:
 1. [Udacity](https://www.udacity.com/)'s - *Software Testing* course
-2. [Aaron Maxwell](http://redsymbol.net/)'s - *Test Driven Development Development in Python* book
+2. [Aaron Maxwell](http://redsymbol.net/)'s - *Test Driven Development in Python* book
 3. [AgileData](http://www.agiledata.org/) by Scott Wambler
 4. [Wikipedia](https://www.wikipedia.org/)
 
