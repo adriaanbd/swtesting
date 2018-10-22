@@ -1,3 +1,11 @@
+## Introduction
+
+Finding failures in software is important. If we can find and fix them, we'll eventually run out of bugs and have software that works reliably.
+
+Its intimidating to look at software testing from a macro perspective, as a large problem, if you consider that neither Microsoft or Google were able to eliminate all the bugs in their products. So, how could we possibly resolve all of the bugs in our software, considering neither of those two tech giants resolved theirs?
+
+This is achieved by looking at it from a micro perspective, since the testing problem is not a large problem but rather a collection of small problems, wherein known techniques that have been and are being used in the industry could be applied.
+
 ## What is testing?
 From a general perspective, a software under test requires a source of test input(s) to be able to produce test output(s), which is processed through an acceptability check.
 
@@ -31,3 +39,67 @@ The Mars Climate Orbiter, a 745lb robotic space probe, was launched by NASA on D
 What happened was that NASA's software expected units in metric (meters per second), but Lockheed Martin's software was programmed in english units (feet per second). And although the underlying code was actually correct, the miscommunication caused the Mars Climate Orbiter to drift and crash into the Mars atmosphere.
 
 So, where was the bug? Was it in the SUT, acceptability test, specification and/or OS, compiler, libraries and hardware?
+
+## A practical example: the Fixed Sized Queue
+
+Take a look at the code below:
+```
+import array
+
+class Queue:
+"""
+Provides a fized-size FIFO (first-in-first-out) queue of integers
+"""
+    def __init__(self, size_max):
+    """
+    Takes a single parameter: an integer > 0 that is the maximum number of elements the queue can hold
+    """
+        assert size_max > 0  # make sure that int is greater than 0
+        self.max = size_max  # save a temporary copy of it
+        self.head = 0  # head pointer, indicates the element to dequeue (first in, first out)
+        self.tail = 0  # tail pointer, indicates where the next element should be loaded
+        self.size = 0  # number of objects currently in the queue
+        self.data = array.array('i', range(size_max))
+
+    def empty(self):
+    """
+    returns True if the queue holds no elements
+    """
+        return self.size == 0
+
+    def full(self):
+    """
+    returns True if the queue cannot hold any more elements
+    """
+        return self.size == self.max
+
+    def enqueue(self,x):
+    """
+    attempts to put the integer x into the queue; it returns True if successful and False if the queue is full
+    """
+        if self.size == self.max:
+            return False
+        self.data[self.tail] = x
+        self.size += 1
+        self.tail += 1
+        if self.tail == self.max:
+            self.tail = 0
+        return True
+
+    def dequeue(self):
+    """
+    removes an integer from the queue and returns it, or else returns None if the queue is empty
+    """
+        if self.size == 0:  #
+            return None
+        x = self.data[self.head]
+        self.size -= 1  #
+        self.head += 1
+        if self.head == self.max:
+            self.head = 0
+        return x
+```
+
+This is a fixed size queue data structure that supports an enqueue operation and a dequeue in which enqueue elements get dequeued in a *first in first out* order. So, if we enqueue(7) and then enqueue(8), the first thing we can dequeue is 7, and then 8. If we try to dequeue an empty queue, we would get some type of error.
+
+In case you're wondering: why not implement a python list that already support enqueue and dequeue operations? The problem with the python list is that they are dynamically allocated and dynamically typed, which doesn't make them very fast. The above-mentioned code implements a fixed size storage region of statically typed memory (the *i* argument of ```array.array('i', range(size_max))``` means that only *integers* are able to be stored), thereby avoiding some of Python's dynamic checks that make the queue slow.
